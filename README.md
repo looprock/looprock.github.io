@@ -1,6 +1,6 @@
 # About
 
-This is the codebase used to generate news.webuilddevops.com
+This is the codebase used to generate anythingmachine.com
 
 # Special thanks
 
