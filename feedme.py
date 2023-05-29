@@ -92,6 +92,7 @@ def build_page():
     return all_content
 
 if __name__ == '__main__':
+    print("Starting feed generation...")
     cleanup("all")
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
@@ -112,3 +113,4 @@ if __name__ == '__main__':
     conn.close()
     conn.close()
     cleanup("db")
+    print("Finished feed generation.")
