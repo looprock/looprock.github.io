@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "feedme"
+version = "0.1.0"
+description = "Feed Reader"
+authors = ["Douglas Land"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.31.0"
+feedparser = "^6.0.10"
+aiosqlite = "^0.19.0"
+asyncio = "^3.4.3"
+aiohttp = "^3.8.4"
+pytz = "^2023.3"
+python-dateutil = "^2.8.2"
+tomli = "^2.0.1"
+beautifulsoup4 = "^4.12.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

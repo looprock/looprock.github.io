@@ -1,0 +1,3 @@
+max_posts = 100
+max_summary_size = 1024
+html_output = "tmp.html"
