@@ -7,6 +7,7 @@ from dateutil import tz
 import tomli
 from bs4 import BeautifulSoup
 import os
+from datetime import datetime, timezone
 
 with open("config.toml", mode="rb") as fp:
     config = tomli.load(fp)
@@ -62,6 +63,8 @@ def build_page():
     with open('header.tmpl', 'r') as file:
         base_head = file.read()
     all_content = base_head
+    dt_now = datetime.now(timezone.utc).strftime("%Y/%m/%d, %H:%M:%S %Z")
+    all_content += f"Last updated: {dt_now}<br><hr>"
     # select the latest 100 posts and write them to the body
     query = f'SELECT title, link, summary, published FROM articles ORDER BY datetime(published) DESC LIMIT {config["max_posts"]}'
     cursor.execute(query)
