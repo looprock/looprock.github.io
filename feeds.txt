@@ -1,6 +1,5 @@
 https://www.techdirt.com/feed/
 https://www.theverge.com/rss/web/index.xml
-https://www.techdirt.com/feed/
 https://gizmodo.com/tag/technology/rss
 https://www.techmeme.com/feed.xml
 https://hackernoon.com/feed
