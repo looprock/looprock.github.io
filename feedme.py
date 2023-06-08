@@ -64,7 +64,7 @@ def build_page():
         base_head = file.read()
     all_content = base_head
     dt_now = datetime.now(timezone.utc).strftime("%Y/%m/%d, %H:%M:%S %Z")
-    all_content += f"Last updated: {dt_now}<br><hr>"
+    all_content += f"Last updated: {dt_now} (updates every 4 hours)<br><hr>"
     # select the latest 100 posts and write them to the body
     query = f'SELECT title, link, summary, published FROM articles ORDER BY datetime(published) DESC LIMIT {config["max_posts"]}'
     cursor.execute(query)
