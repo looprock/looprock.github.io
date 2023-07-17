@@ -14,7 +14,12 @@ with open("config.toml", mode="rb") as fp:
 
 db_file = 'sqlite.db'
 
-tzinfos = {'PDT': tz.gettz('America/Los_Angeles')}
+tzinfos = {
+    'PDT': tz.gettz('America/Los_Angeles'),
+    'PST': tz.gettz('America/Los_Angeles'),
+    'EST': tz.gettz('America/New_York'),
+    'EDT': tz.gettz('America/New_York'),
+}
 
 def cleanup(files):
     '''Remove intermediate database files.'''
@@ -81,7 +86,7 @@ def build_page():
                 summary = truncate_html(summary, config["max_summary_size"])
                 summary = f"{summary} [...]"
             published = r[3]
-            print_string += f"""<h2><a href=\"{link}\" target=\"_blank\">{title.strip()}</a></h2>\n
+            print_string += f"""<h3><a href=\"{link}\" target=\"_blank\">{title.strip()}</a></h3>\n
             <b>Published:</b> {published}<p>
             <b>Summary:</b><br>
             {summary.strip()}<br>
