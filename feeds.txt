@@ -2,7 +2,6 @@ https://www.techdirt.com/feed/
 https://www.theverge.com/rss/web/index.xml
 https://gizmodo.com/tag/technology/rss
 https://www.techmeme.com/feed.xml
-https://hackernoon.com/feed
 https://feeds.macrumors.com/MacRumors-Front
 https://cprss.s3.amazonaws.com/golangweekly.com.xml
 https://aws.amazon.com/blogs/architecture/feed/
