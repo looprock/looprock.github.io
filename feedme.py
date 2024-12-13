@@ -7,7 +7,14 @@ from dateutil import tz
 import tomli
 from bs4 import BeautifulSoup
 import os
+import html
 from datetime import datetime, timezone
+import logging
+import niquests
+
+# Set up logging
+logging.basicConfig(level=logging.DEBUG if os.getenv("DEBUG_LOGGING") == "1" else logging.INFO)
+logger = logging.getLogger()
 
 with open("config.toml", mode="rb") as fp:
     config = tomli.load(fp)
@@ -35,11 +42,17 @@ def truncate_html(html, length):
 
 def process_rss(url):
     '''Gather posts from RSS feed and put them into sqlite.'''
-    feed = feedparser.parse(url)
+    try:
+        response = niquests.get(url, timeout=30)
+        feed = feedparser.parse(response.content)
+    except Exception as e:
+        logger.error(f"Error fetching {url}: {e}")
+        return  # Exit the function if there's an error
     for post in feed.entries:
         title = post.title
         title_encoded = summary_encoded = base64.b64encode(title.encode("utf-8")).decode()
-        link = post.link
+        link_raw = post.link
+        link = html.escape(link_raw)
         summary = post.summary
         summary_encoded = base64.b64encode(summary.encode("utf-8")).decode()
         parsed_date = parse(post.published, tzinfos=tzinfos)
@@ -52,13 +65,16 @@ def process_rss(url):
             (summary, title, link, published) 
             values 
             ('{summary_encoded}', '{title_encoded}', '{link}', '{parsed_date}')'''
+            logger.debug(f"Inserting article: {sql}")
             cursor.execute(sql)
             conn.commit()
 
 def read_feeds():
     '''Process all the feeds in feeds.txt.'''
+    logger.debug("Reading feeds from feeds.txt")
     with open("feeds.txt", "r") as file:
         for url in file:
+            logger.debug(f"Processing URL: {url.strip()}")
             process_rss(url.strip())
 
 
@@ -100,7 +116,7 @@ def build_page():
     return all_content
 
 if __name__ == '__main__':
-    print("Starting feed generation...")
+    logger.info("Starting feed generation...")
     cleanup("all")
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
@@ -121,4 +137,4 @@ if __name__ == '__main__':
     conn.close()
     conn.close()
     cleanup("db")
-    print("Finished feed generation.")
+    logger.info("Finished feed generation.")
